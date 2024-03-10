@@ -14,6 +14,8 @@ class m240306_153559_create_long_link_table extends Migration
     {
         $this->createTable('{{%long_link}}', [
             'id' => $this->primaryKey(),
+            'link' => $this->string()->notNull(),
+            'active' => $this->boolean()->defaultValue(true),
         ]);
     }
 
