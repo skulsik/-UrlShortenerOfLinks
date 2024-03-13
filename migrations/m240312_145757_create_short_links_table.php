@@ -3,16 +3,16 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%short_link}}`.
+ * Handles the creation of table `{{%short_links}}`.
  */
-class m240306_153648_create_short_link_table extends Migration
+class m240312_145757_create_short_links_table extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->createTable('{{%short_link}}', [
+        $this->createTable('{{%short_links}}', [
             'id' => $this->primaryKey(),
             'long_link_id' => $this->integer()->notNull(),
             'link' => $this->string()->notNull(),
@@ -20,10 +20,10 @@ class m240306_153648_create_short_link_table extends Migration
         ]);
 
         $this->addForeignKey(
-            'fk-short_link-long_link_id',
-            'short_link',
+            'fk-short_links-long_link_id',
+            'short_links',
             'long_link_id',
-            'long_link',
+            'long_links',
             'id',
             'CASCADE'
         );
@@ -34,7 +34,7 @@ class m240306_153648_create_short_link_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk-short_link-long_link_id', 'short_link');
-        $this->dropTable('{{%short_link}}');
+        $this->dropForeignKey('fk-short_links-long_link_id', 'short_links');
+        $this->dropTable('{{%short_links}}');
     }
 }
