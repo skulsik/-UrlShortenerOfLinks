@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\models\LongLink;
+use app\models\LongLinks;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -62,7 +62,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $model = new LongLink();
+        $model = new LongLinks();
 
         return $this->render('index', [
             'model' => $model,
