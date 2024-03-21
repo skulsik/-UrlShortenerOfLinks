@@ -2,8 +2,8 @@
 
 namespace app\controllers;
 
-use app\models\Hosts;
 use app\models\LongLinks;
+use app\services\AddLinkDB;
 use app\services\GeneratorShortLink;
 use Yii;
 use yii\web\Controller;
@@ -33,9 +33,8 @@ class LinkController extends Controller
     /**  */
     public function actionCreate()
     {
-        /** Создание моделей */
+        /** Создание модели - длинной ссылки */
         $model_long_link = new LongLinks();
-        $model_short_link = new ShortLinks();
 
         if ($model_long_link->load(Yii::$app->request->post()) && $model_long_link->validate())
         {
@@ -46,18 +45,30 @@ class LinkController extends Controller
             /** Если нет ошибок из генератора ссылок, продолжает работу */
             if(!$short_link_atr['errors'])
             {
-                /** Поиск хоста в БД */
-                $model_host = Hosts::find()->where(['host' => $short_link_atr['host']])->one();
-                /** Если в БД нет такого хоста, создает новую модель хоста */
-                if(!$model_host) $model_host = new Hosts();
-                /** Запись хоста в модель */
-                $model_host->host = $short_link_atr['host'];
-                /** Сохранение модели хоста */
-                if (!$model_host->save()) return $this->redirect(['create', 'error' => 'Не удалось сохранить хост.']);
+                /** Объект - добавление ссылок в бд */
+                $add_link = new AddLinkDB($short_link_atr);
 
-                /** Поиск длинной ссылки в БД */
-                $long_link_db = LongLinks::find()->where(['link' => $model_long_link->link])->one();
-                dd($model_host);
+                /** Добавление хоста */
+                if($add_link->add_host())
+                {
+                    dd('gfdgfd');
+                    return $this->redirect(['create', 'error' => 'Не удалось сохранить хост.']);
+                }
+
+                /** Добавление длинной ссылки */
+                if($add_link->add_long_link($model_long_link))
+                {
+                    $this->redirect(['create', 'error' => 'Не удалось сохранить длинную ссылку.']);
+                }
+
+                dd($add_link->model_long_link);
+
+
+
+                /** Модель короткой ссылки */
+                $model_short_link = new ShortLinks();
+
+
 
             }
             else
