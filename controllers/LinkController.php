@@ -40,41 +40,38 @@ class LinkController extends Controller
         {
             /** Генерация короткой ссылки */
             $short_link_obj = new GeneratorShortLink($model_long_link);
-            $short_link_atr = $short_link_obj->get_short_link();
+            $short_link_obj->generate_hash_link();
+            $short_link_attr = $short_link_obj->get_short_link();
 
             /** Если нет ошибок из генератора ссылок, продолжает работу */
-            if(!$short_link_atr['errors'])
+            if (!$short_link_attr['errors'])
             {
                 /** Объект - добавление ссылок в бд */
-                $add_link = new AddLinkDB($short_link_atr);
+                $add_link = new AddLinkDB($short_link_attr);
 
-                /** Добавление хоста */
-                if($add_link->add_host())
+                /** Добавление хоста в БД */
+                if ($add_link->add_host())
                 {
-                    dd('gfdgfd');
                     return $this->redirect(['create', 'error' => 'Не удалось сохранить хост.']);
                 }
 
-                /** Добавление длинной ссылки */
-                if($add_link->add_long_link($model_long_link))
+                /** Добавление длинной ссылки в БД */
+                if ($add_link->add_long_link($model_long_link))
                 {
                     $this->redirect(['create', 'error' => 'Не удалось сохранить длинную ссылку.']);
                 }
 
-                dd($add_link->model_long_link);
-
-
-
-                /** Модель короткой ссылки */
-                $model_short_link = new ShortLinks();
-
-
-
+                /** Добавление короткой ссылки в БД */
+                if ($add_link->add_short_link())
+                {
+                    $this->redirect(['create', 'error' => 'Не удалось сохранить короткую ссылку.']);
+                }
+                dd($short_link_attr['errors']);
             }
             else
             {
                 return $this->render('create', [
-                    'model' => $model_long_link,
+                    'errors' => $short_link_attr['errors'],
                 ]);
             }
 
