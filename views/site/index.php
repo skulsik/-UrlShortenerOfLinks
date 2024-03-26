@@ -7,25 +7,26 @@ use yii\widgets\ActiveForm;
 
 $this->title = 'Главная страница';
 ?>
-<div class="site-index">
+<div class="site-index p-5">
+    <div class="card">
+        <div class="card-header text-bg-success text-center">
+            <h1>Создание короткой ссылки.</h1>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Вставьте в поле, вашу активную ссылку.</h5>
+            <div class="short-link-form">
 
-    <div class="jumbotron text-center bg-transparent mt-5 mb-5">
-        <h1 class="display-4">Создание короткой ссылки.</h1>
+                <?php $form = ActiveForm::begin(['action' => ['link/create']]); ?>
 
-        <p class="lead">Вставьте в поле, вашу активную ссылку.</p>
+                <?= $form->field($model, 'link')->textInput(['maxlength' => true]) ?>
 
-        <div class="short-link-form">
+                <div class="form-group">
+                    <?= Html::submitButton('Создать короткую ссылку', ['class' => 'btn btn-success']) ?>
+                </div>
 
-            <?php $form = ActiveForm::begin(['action' => ['link/create']]); ?>
+                <?php ActiveForm::end(); ?>
 
-            <?= $form->field($model, 'link')->textInput(['maxlength' => true]) ?>
-
-            <div class="form-group">
-                <?= Html::submitButton('Создать короткую ссылку', ['class' => 'btn btn-success']) ?>
             </div>
-
-            <?php ActiveForm::end(); ?>
-
         </div>
     </div>
 

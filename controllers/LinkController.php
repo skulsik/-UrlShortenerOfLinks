@@ -11,6 +11,12 @@ use app\models\ShortLinks;
 
 class LinkController extends Controller
 {
+    public function actionView($param1=null)
+    {
+        dd($param1);
+        return $this->render('view');
+    }
+
     public function actionGetShortLinks($longLink)
     {
         $shortLinks = ShortLinks::find()
@@ -52,21 +58,20 @@ class LinkController extends Controller
                 /** Добавление хоста в БД */
                 if ($add_link->add_host())
                 {
-                    return $this->redirect(['create', 'error' => 'Не удалось сохранить хост.']);
+                    return $this->redirect(['/', 'error' => 'Не удалось сохранить хост.']);
                 }
 
                 /** Добавление длинной ссылки в БД */
                 if ($add_link->add_long_link($model_long_link))
                 {
-                    $this->redirect(['create', 'error' => 'Не удалось сохранить длинную ссылку.']);
+                    $this->redirect(['/', 'error' => 'Не удалось сохранить длинную ссылку.']);
                 }
 
                 /** Добавление короткой ссылки в БД */
                 if ($add_link->add_short_link())
                 {
-                    $this->redirect(['create', 'error' => 'Не удалось сохранить короткую ссылку.']);
+                    $this->redirect(['/', 'error' => 'Не удалось сохранить короткую ссылку.']);
                 }
-                dd($short_link_attr['errors']);
             }
             else
             {
@@ -74,16 +79,12 @@ class LinkController extends Controller
                     'errors' => $short_link_attr['errors'],
                 ]);
             }
-
-
-            // сохранение данных
-//            if ($model->save()) {
-//                return $this->redirect(['view', 'id' => $model->id]);
-//            }
         }
 
-        return $this->render('create', [
-            'model' => $model_long_link,
+        //Yii::$app->runAction('LinkController/actionView', ['param1'=>'value1', 'param2'=>'value2']);
+
+        return $this->render('view', [
+            'model' => 'test',
         ]);
     }
 }

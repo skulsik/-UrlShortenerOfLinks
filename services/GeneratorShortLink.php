@@ -58,6 +58,9 @@ class GeneratorShortLink
             }
         } else $this->error = ['url' => 'Не правильно задан url. Введите ссылку после домена (пример https://домен.ru/ваша_ссылка).'];
 
+        /** Хаотично перемешивает символы. Двойная генерация. */
+        $this->short_link = str_shuffle($this->short_link);
+
         /** Если в бд существует такая ссылка, запуск рекурсии */
         if ($this->search_short_link()) $this->generate_hash_link();
     }
