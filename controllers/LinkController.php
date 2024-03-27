@@ -2,41 +2,32 @@
 
 namespace app\controllers;
 
+use app\models\Hosts;
 use app\models\LongLinks;
 use app\services\AddLinkDB;
 use app\services\GeneratorShortLink;
 use Yii;
 use yii\web\Controller;
-use app\models\ShortLinks;
 
 class LinkController extends Controller
 {
-    public function actionView($param1=null)
+    /** Вывод созданной ссылки */
+    public function actionView()
     {
-        dd($param1);
         return $this->render('view');
     }
 
-    public function actionGetShortLinks($longLink)
+    public function actionList()
     {
-        $shortLinks = ShortLinks::find()
-            ->with('longLink')
-            ->where(['long_link.link' => $longLink])
-            ->all();
+        $model_link = Hosts::find()->with('longLink')->all();
+        dd($model_link);
 
-        // Вернуть короткие ссылки для заданной длинной ссылки
-        return $this->asJson($shortLinks);
+        return $this->render('list');
     }
 
-    public function actionGetLongLink($shortLink)
-    {
-        $longLink = ShortLinks::findOne(['link' => $shortLink])->longLink;
-
-        // Вернуть длинную ссылку для заданной короткой ссылки
-        return $this->asJson($longLink);
-    }
-
-    /**  */
+    /** Создание короткой ссылки
+     * Запись хоста, длинной и короткой ссылки в бд
+     */
     public function actionCreate()
     {
         /** Создание модели - длинной ссылки */
@@ -81,10 +72,10 @@ class LinkController extends Controller
             }
         }
 
-        //Yii::$app->runAction('LinkController/actionView', ['param1'=>'value1', 'param2'=>'value2']);
-
         return $this->render('view', [
-            'model' => 'test',
+            'host' => $short_link_attr['host'],
+            'short_link' => $short_link_attr['short_link'],
+            'long_link' => $model_long_link->link
         ]);
     }
 }

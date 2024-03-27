@@ -2,12 +2,12 @@
 
 /** @var yii\web\View $this */
 
-$this->title = 'Просмотр созданной ссылки';
+$this->title = 'Просмотр всех ссылок';
 
 ?>
 <div class="card">
     <div class="card-header text-bg-success text-center">
-        <h1>Обзор созданной ссылки</h1>
+        <h1>Обзор всех ссылок</h1>
     </div>
     <div class="card-body">
         <table class="table table-success table-striped">
@@ -22,11 +22,7 @@ $this->title = 'Просмотр созданной ссылки';
                     <p><strong>Короткая ссылка</strong></p>
                 </td>
             </tr>
-            <tr>
-                <td><?= $host; ?></td>
-                <td><?= $long_link; ?></td>
-                <td><?= $short_link; ?></td>
-            </tr>
+
         </table>
     </div>
 </div>
