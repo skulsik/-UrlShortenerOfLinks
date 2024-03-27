@@ -4,8 +4,9 @@ namespace app\models;
 
 class Hosts extends \yii\db\ActiveRecord
 {
+    /** Отношение: хост - ко многим длинным ссылкам */
     public function getLongLink()
     {
-        return $this->hasOne(LongLinks::class, ['id' => 'long_link_id']);
+        return $this->hasMany(LongLinks::class, ['host_id' => 'id']);
     }
 }

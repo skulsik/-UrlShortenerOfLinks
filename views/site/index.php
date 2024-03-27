@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 
 $this->title = 'Главная страница';
 ?>
-<div class="site-index p-5">
+<div class="site-index">
     <div class="card">
         <div class="card-header text-bg-success text-center">
             <h1>Создание короткой ссылки.</h1>

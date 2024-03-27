@@ -52,6 +52,7 @@ class AddLinkDB
         /** Если в БД нет такой длинной ссылки, создает новую модель длинной ссылки */
         if(!$this->model_long_link_db)
         {
+            $this->model_long_link = $model;
             /** Присвоение родителя длинной ссылке */
             $this->model_long_link->host_id = $this->model_host->id;
             /** Сохранение модели длинной ссылки */
