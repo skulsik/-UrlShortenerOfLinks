@@ -22,6 +22,19 @@ $this->title = 'Просмотр всех ссылок';
                     <p><strong>Короткая ссылка</strong></p>
                 </td>
             </tr>
+            <?php if(!empty($model_list)): ?>
+                <?php foreach($model_list as $host): ?>
+                    <?php foreach($host->longLink as $long_link): ?>
+                        <?php foreach($long_link->shortLink as $short_link): ?>
+            <tr>
+                <td><?= $host->host; ?></td>
+                <td><?= $long_link->link; ?></td>
+                <td><?= $short_link->link; ?></td>
+            </tr>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
 
         </table>
     </div>

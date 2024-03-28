@@ -17,12 +17,15 @@ class LinkController extends Controller
         return $this->render('view');
     }
 
+    /** Список ссылок */
     public function actionList()
     {
-        $model_link = Hosts::find()->with('longLink')->all();
-        dd($model_link);
+        /** Получает все три таблицы через определенные связи */
+        $model_list = Hosts::find()->with('longLink.shortLink')->all();
+        //dd($model_list);
 
-        return $this->render('list');
+        /** Возвращает список всех ссылок */
+        return $this->render('list', ['model_list' => $model_list]);
     }
 
     /** Создание короткой ссылки
